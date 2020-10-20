@@ -11,3 +11,8 @@ def test_pyrrol_libwfa():
     call_tden("tden.in.libwfa", folder=LIBWFA)
     assert file_diff("tden_summ.txt.libwfa", "tden_summ.txt.libwfa.ref" ,folder=LIBWFA)
     remove_file("tden_summ.txt.libwfa", folder=LIBWFA)
+
+def test_pyrrol_omat():
+    call_tden("tden.in.OmAt", folder=LIBWFA)
+    assert file_diff('tden_summ.txt.OmAt', 'tden_summ.txt.OmAt.ref', folder=LIBWFA)
+    remove_file("tden_summ.txt.OmAt", folder=LIBWFA)
