@@ -1,8 +1,8 @@
-from .actions import ActionFactory
+from .actions import run
 from .theoinp import TheodoreInput
 from .analyze_tden import AnalyzeTden, AnalyzeTdenUnr
 from .analyze_tden_soc import AnalyzeTdenSoc
-from .analyze_sden import AnalyzeSden
+from .analyze_sden import analyze_sden
 from .analyze_NOs import AnalyzeNOs
 from .parse_libwfa import ParseLibwfa
 from .plot_vist import PlotVist
@@ -25,26 +25,4 @@ from .convert_table import ConvertTable
 from .dgrid_prep import DGridPrep
 from .fcd import FCD
 
-
-from .. import theo_header
-
-
-settings = {
-            'description': theo_header.ret_header(),
-            'logo': None,
-            'error_order': ['logo', 'description', 'args', 'usage', 'space', 'comment', 'space', 'error'],
-            'arg_format': {
-                'name': 20,
-                'comment': 50,
-                'seperator': ' | ',
-            },
-            'subparser_args': {
-                'title': 'Actions: %s',
-            },
-            'subparser_format': {
-                'name': 20,
-                'comment': 50,
-                },
-}
-
-run = ActionFactory.from_commandline(description=settings, as_parser=True)
+__all__ = ['run']

@@ -1,5 +1,6 @@
 import os
 import argparse
+from functools import wraps
 # Python 2/3 compatibility
 try:
     from time import process_time
@@ -25,7 +26,22 @@ def get_ifile_commandline():
     return isfile(args.ifile)
 
 
+def timeit_named(name):
+    def timeit(func):
+        @wraps(func)
+        def _wrapper(*args, **kwargs):
+            (tc, tt) = (process_time(), perf_counter())
+            result = func(*args, **kwargs)
+            cpu_time = process_time() - tc
+            wall_time = perf_counter() - tt
+            print("Process '{name}': -- CPU time: {cpu_time:2.1f} s, wall time: {wall_time:2.1f} s")
+            return result
+        return _wrapper
+    return timeit
+
+
 def timeit(func):
+    @wraps(func)
     def _wrapper(*args, **kwargs):
         (tc, tt) = (process_time(), perf_counter())
         result = func(*args, **kwargs)

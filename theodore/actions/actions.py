@@ -1,36 +1,27 @@
-from colt import Plugin
+from colt.tools.actions import create_action
+from .theotools import timeit_named
+from .. import theo_header
 
 
-class ActionFactory(Plugin):
-    _is_plugin_factory = True
-    _plugins_storage = '_actions'
-
-    _user_input = """
-    options =  :: str
-    """
-
-    @classmethod
-    def _extend_user_input(cls, questions):
-        questions.generate_cases("options", {action.name: action.colt_user_input
-                                             for action in cls.plugins.values()})
-    @classmethod
-    def from_config(cls, config):
-        config = config['options']
-        for action in cls.plugins.values():
-            if action.name == config.value:
-                return action.from_config(config)
-        raise Exception(f"Action '{config[config.value]}' unknown")
+run, Action, action = create_action('Action')
 
 
-class Action(ActionFactory):
 
-    _register_plugin = False
 
-    @classmethod
-    def from_config(cls, config):
-        if not isinstance(cls.run, staticmethod):
-            cls.run = staticmethod(cls.run)
-        return cls.run(**config)
-         
-    def run(**options):
-        raise NotImplementedError
+run.description = {
+            'description': theo_header.ret_header(),
+            'logo': None,
+            'error_order': ['logo', 'description', 'args', 'usage', 'space', 'comment', 'space', 'error'],
+            'arg_format': {
+                'name': 20,
+                'comment': 50,
+                'seperator': ' | ',
+            },
+            'subparser_args': {
+                'title': 'Actions: %s',
+            },
+            'subparser_format': {
+                'name': 20,
+                'comment': 50,
+                },
+}
